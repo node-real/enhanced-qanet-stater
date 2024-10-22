@@ -44,6 +44,10 @@ The PR link will be printed in the output of the script, like this:
 
 https://github.com/node-real/nodereal-app/pull/new/opbnb-new-qanet-opbnb-qanet-kerwinv2-70
 
+You can access enhanced-api using this url: https://${qanet_name}.bk.nodereal.cc.
+
+Where: ${qanet_name} is the name of layer2 you configured in env
+
 ## qa_drop.sh
 This script will help you release all pod resources.
 
