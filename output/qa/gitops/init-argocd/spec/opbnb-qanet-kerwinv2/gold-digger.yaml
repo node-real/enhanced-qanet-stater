@@ -1,5 +1,0 @@
-# for prod config
-namespace: opbnb-qanet-kerwinv2
-service: gold-digger
-region:
-  - us

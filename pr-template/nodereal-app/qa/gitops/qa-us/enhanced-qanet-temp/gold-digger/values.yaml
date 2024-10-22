@@ -4,7 +4,7 @@
 nodereal-app:
   ownerLabels:
     team: "enhanced-api"
-    biz: "opbnb-qanet-kerwinv2"
+    biz: "${qanet_name}"
     appcom: "gold-digger"
   karpenter:
     enabled: true
@@ -24,7 +24,7 @@ nodereal-app:
   image:
     repository: 553885929720.dkr.ecr.us-east-1.amazonaws.com/gold-digger-v2
     pullPolicy: Always
-    tag: 97f2bbce64cee77eb12681477bb0ee03f63b80f4
+    tag: ${enhanced_tag}
   resources:
     limits:
       cpu: 12
@@ -58,10 +58,10 @@ nodereal-app:
       data:
         config.toml: |-
           [Store]
-          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/nebuladataset_qanet_kerwin?parseTime=true&multiStatements=true&interpolateParams=true"
+          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/${db_name}?parseTime=true&multiStatements=true&interpolateParams=true"
           
           [ReadStore]
-          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-ro-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/nebuladataset_qanet_kerwin?parseTime=true&multiStatements=true&interpolateParams=true"
+          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-ro-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/${db_name}?parseTime=true&multiStatements=true&interpolateParams=true"
           
           [Debug]
           ListenAddr = ":9090"
@@ -73,24 +73,24 @@ nodereal-app:
           [L2CrossConfig]
           DepositAttributeAccountAddress = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0001"
           DepositAttributeContractAddress = "0x4200000000000000000000000000000000000015"
-          DepositContractAddress = "0xA64dAecdEa3beC2d5a1494E1E62cC78A046d2E11"
+          DepositContractAddress = "${optimism_portal_proxy}"
           WithDrawContractAddress = "0x4200000000000000000000000000000000000016"
           L2CrossDomainMessengerAddress = "0x4200000000000000000000000000000000000007"
           
           [L1TransferConfig]
-          StateBatchContractAddress = "0x4A08cD6f76AEF3f06265d72d3dd972b6120DaCcE"
-          OptimismPortalAddress = "0xA64dAecdEa3beC2d5a1494E1E62cC78A046d2E11"
+          StateBatchContractAddress = "${l2_output_oracle_proxy}"
+          OptimismPortalAddress = "${optimism_portal_proxy}"
           FinalizeMethodID = "0x8c3152e9"
           ProveMethodID = "0x4870496f"
 
           [[ChainFeeds]]
-          ChainName="opbnb-qanet-kerwinv2"
+          ChainName="${qanet_name}"
           CacheDepth=128
           ReorgDepth=64
           Default=true
           Enable=true
           RPCEndpoint = [
-            "https://opbnb-qanet-kerwinv2-seq-0.bk.nodereal.cc",
+            "https://${qanet_name}-seq-0.bk.nodereal.cc",
           ]
           SpecialGetBlockReceiptMethod="eth_getBlockReceipts"
           [[ChainFeeds.RateLimits]]
@@ -106,10 +106,10 @@ nodereal-app:
           ChainName="l1-qa-net"
           CacheDepth=128
           ReorgDepth=64
-          Default=true
+          Default=false
           Enable=true
           RPCEndpoint = [
-            "https://opbnb-qanet-l1.bk.nodereal.cc",
+            "${l1_rpc_url}",
           ]
           SpecialGetBlockReceiptMethod="eth_getBlockReceipts"
           [[ChainFeeds.RateLimits]]
@@ -128,6 +128,8 @@ nodereal-app:
           LatestBlockNumber=0
           StartBlockNumber=340000
           IsRealTimeTask="Y"
+          
+          
           
 
           

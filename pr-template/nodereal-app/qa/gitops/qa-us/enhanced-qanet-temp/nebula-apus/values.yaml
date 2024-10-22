@@ -232,3 +232,18 @@ nodereal-app:
         protocol: TCP
         targetPort: 6060
     type: ClusterIP
+
+  ingress:
+    enabled: true
+    servicePort: 8545
+    class: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
+      nginx.ingress.kubernetes.io/connection-proxy-header: ""
+      external-dns.alpha.kubernetes.io/ingress-hostname-source: "annotation-only"
+    hosts:
+      - host: ${qanet_name}.bk.nodereal.cc
+        paths:
+          - /
