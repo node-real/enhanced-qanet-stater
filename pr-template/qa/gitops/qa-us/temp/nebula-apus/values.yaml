@@ -1,0 +1,234 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nodereal-app:
+  ownerLabels:
+    team: "enhanced-api"
+    biz: "${qanet_name}"
+    appcom: "nebula-apus"
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    targetCPUUtilizationPercentage: 65
+  karpenter:
+    enabled: true
+    resourceType: "mix"
+    spotMode: "off"
+    consolidation: "off"
+    architecture: "amd64"
+    instanceSize:
+      enabled: false
+    strongAffinity: false
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1a
+  serviceMonitor:
+    enabled: true
+    monitorPath: /debug/metrics/prometheus
+  serviceAccount:
+    create: false
+    name: gold-digger
+  replicaCount: 1
+  configMaps:
+    config.toml:
+      data:
+        config.toml: |-
+          [Service]
+          HTTPListenAddr = "0.0.0.0:8545"
+          DebugListenAddr = "0.0.0.0:6060"
+          NeedSwagger = false
+
+          [Query]
+          RangeLimit = 5001
+          RangeCountThreshold = 5001
+          CountLimit = -1
+          EnableLogReq = 1
+          Timeout = "20s"
+          IgnoreQueryAddrList = ["0x0000000000000000000000000000000000000000", "0x000000000000000000000000000000000000dead"]
+          DigTaskList = ["advanced_contract","block_reward"]
+          UniqueMethods = [
+            "nr_getBlockNumberByTimeStamp",
+            "nr_getSearchedTokenMeta",
+            "nr_getTransferByTokenId",
+            "nr_getTransferCountByTokenId",
+            "nr_getDailyCategoryCount",
+            "nr_getTokenList",
+            "nr_getAccountList",
+            "nr_getAccountListCount",
+            "nr_getBscDauData",
+            "nr_getDappListData",
+            "nr_get4YACampaignData",
+            "nr_getDailyBlockReward",
+            "nr_getDailyBlockCountAndReward",
+            "nr_getBlockReward",
+            "nr_getTradingVolumeRank",
+            "nr_getTradingVolumeRankList",
+            "nr_historyTokenHolderSend",
+            "nr_getHistoryTokenHolder",
+            "nr_getTpsPerHour",
+            "nr_getTokenPrice",
+            "nr_getAccountByAddress",
+            "nr_updatePrice",
+            "nr_getDevelopPortalMonthly",
+            "nr_getDevelopPortalThirdParty",
+            "nr_getDevelopPortalDaily",
+            "nr_getDevelopPortalWeekly"
+          ]
+
+          [Query.RfiTokenConfig]
+          AddrList = [
+           "0xc748673057861a797275CD8A068AbB95A902e8de",
+            "0x42981d0bfbAf196529376EE702F2a9Eb9092fcB5",
+            "0x7db5af2B9624e1b3B4Bb69D6DeBd9aD1016A58Ac",
+            "0xdb021b1b247fe2f1fa57e0a87c748cc1e321f07f",
+            "0xacfc95585d80ab62f67a14c566c1b7a49fe91167",
+            "0xe80772eaf6e2e18b651f160bc9158b2a5cafca65",
+            "0xa03110800894b3CcF8723D991d80875561F96777",
+            "0x5ca42204cdaa70d5c773946e69de942b85ca6706",
+            "0x9A2478C4036548864d96a97Fbf93f6a3341fedac",
+            "0xc0924edefb2c0c303de2d0c21bff07ab763163b5",
+            "0xae2df9f730c54400934c06a17462c41c08a06ed8",
+            "0x10b9dd394467f2cfbc769e07e88dc7e2c41b0965",
+            "0x4ac81e3631DcDa62109e3117c4CAE7bf70BbbbD2",
+            "0xeB84be66c8E71f07eA57Cf3b21626d7784F32A7F",
+            "0x8ad8e9b85787ddd0d31b32ecf655e93bfc0747ef",
+            "0xe4318f2acf2b9c3f518a3a03b5412f4999970ddb",
+            "0x409e215738E31d8aB252016369c2dd9c2008Fee0",
+            "0x6306e883493824ccf606d90e25f68a28e47b98a3",
+            "0x7c1b2f618569789941b88680966333f3e8fedc61",
+            "0xd0aa796e2160ED260c668E90aC5f237b4eBd4b0d",
+            "0x7d38315b92d0E7A85B35B2b7FE969B25935619D7",
+            "0x07f5cEdeD6B3dba557B3663EDC8941FB37b63945",
+            "0x68b5edb385b59e30a7a7db1e681a449e94df0213",
+            "0x49277cc5be56b519901e561096bfd416277b4f6d",
+            "0xce1b3e5087e8215876af976032382dd338cf8401",
+            "0x5f136383e230f972739fae2e81e7e774afe64c66",
+            "0x8f9b482b74afc0b7e8aefc704f1f04df208ee332",
+            "0x95977A9DaA14A00258f89a14F75B6E35d5B730d4",
+            "0x2167afa1c658dc5c4ec975f4af608ff075a8b8ae",
+            "0xCb64f56A1f5865907dC01BeF4f828a2ae1D957c4",
+            "0x2A54F9710ddeD0eBdde0300BB9ac7e21cF0E8DA5",
+            "0x2fd2799e83a723b19026a979899dfb70bbf6bf6b",
+            "0x0cBE5C4F318035b866AAcFaf7D018FB4C5F920F3",
+            "0xfb52fc1f90dd2b070b9cf7ad68ac3d68905643fa",
+            "0x003f83da9868acc151be89eefa4d19838ffe5d64",
+            "0xcc10c8afd683c5aa86b1d170d75b555bce5a2c37",
+            "0x4e3cabd3ad77420ff9031d19899594041c420aee",
+            "0x2ADfe76173F7e7DAef1463A83BA4d06171fAc454",
+            "0xBcB3ac7a3ceB2d0C5E162A03901d6D7bb8602912",
+            "0xd0c4bc1b89bbd105eecb7eba3f13e7648c0de38f",
+            "0x5b0dfe077b16479715c9838eb644892008abbfe6",
+            "0x2A9718defF471f3Bb91FA0ECEAB14154F150a385",
+            "0x808fac147a9c02723d0be300ac4753eaf93c0e1f",
+            "0x375a7b6a6f74a5acb86c420c53c4ce8cf1d51b4d",
+            "0x72EF0CF8dC02fE91150a2472CC551DE929e22FaC",
+            "0x112fbe7f60329e9e2d232008e56f94d1582ae3bc",
+            "0xfE11F9E474cE9BDb4eFD15f0038634c70586fED0",
+            "0xa8c5cebb7a098f1ee30014984201036a92893ca7",
+            "0xC84D8d03aA41EF941721A4D77b24bB44D7C7Ac55",
+            "0x9D4451151A8dE5B545a1bC6c8fdEB9d94a2868e1",
+            "0xa5a76b68cd3ad967d1b51d47ce104b85f9266686",
+            "0x9d9affac2175ef541642035ab66f5fe7df813851",
+            "0x7606267A4bfff2c5010c92924348C3e4221955f2",
+          ]
+
+          [[ChainFeeds]]
+          ChainName="${qanet_name}"
+          CacheDepth=64
+          Default=true
+          Enable=false
+          RPCEndpoint = [
+            "https://${qanet_name}-seq-0.bk.nodereal.cc",
+          ]
+          SpecialGetBlockReceiptMethod="nr_getTransactionReceiptsByBlockHash"
+
+          [Store]
+          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/${db_name}?parseTime=true&multiStatements=true&interpolateParams=true"
+          SlowThreshold = "1s"
+          MaxOpenConns = 2
+          ConnMaxLifetime = "7200s"
+          
+          [Debug]
+          ListenAddr = ":6060"
+
+          [ReadStore]
+          DSN = "bijieprd:m(*w-NdSi&NH7oZUktaBQ6nfp3QDmgpy@tcp(tf-nodereal-qa-bsc-l2-opt-chaindb.cluster-ro-cb6vaj1ctcqk.us-east-1.rds.amazonaws.com:3306)/${db_name}?parseTime=true&multiStatements=true&interpolateParams=true"
+          SlowThreshold = "1s"
+          MaxOpenConns = 64
+
+          [Log]
+          RootDir = "/opt/app/logs"
+          Level = "info"
+
+          [Client]
+
+          [KafkaConfig]
+          Enable=0
+          BucketName="tf-nodereal-prod-bsc-gold-digger"
+          BucketDir = "public"
+          BucketRegion="us-east-1"
+          Chain="bsc"
+
+          [TransactionConfig]
+          DefaultAssetForTransaction = "BNB"
+          MaxBlockRange=1000
+          StatesDbDataSize=20000
+          ErcDbDataSize=20000
+          EsPartIndexSize=1500000
+          ErcDbDataV2Size=20000
+          TraceDataSize=20000
+          WorkerNum=300
+          PoolSize=300
+          GetAddressCountMaxConn=6
+          InitialTimestamp=1598671448
+          BlockProducePeriod=3
+          EnableVolume = false
+          SearchTimeRange=10
+          ChainType="bsc"
+
+  configMapsMountPath: /opt/app/configs/
+  containers:
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8545
+      initialDelaySeconds: 10
+    lifecycle:
+      preStop:
+        exec:
+          command: ["/bin/sh","-c","sleep 5"]
+    env:
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+    logsMountPath: /opt/app/logs/
+  image:
+    pullPolicy: Always
+    repository: 553885929720.dkr.ecr.us-east-1.amazonaws.com/nebula-apus-v2
+    tag: ${enhanced_tag}
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
+  resources:
+    limits:
+      cpu: "12"
+      memory: 15Gi
+    requests:
+      cpu: "2"
+      memory: 4Gi
+  service:
+    ports:
+      - name: rpc
+        port: 8545
+        protocol: TCP
+        targetPort: 8545
+      - name: metrics
+        port: 6060
+        protocol: TCP
+        targetPort: 6060
+    type: ClusterIP

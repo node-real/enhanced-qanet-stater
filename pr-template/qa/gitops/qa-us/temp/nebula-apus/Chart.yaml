@@ -1,0 +1,7 @@
+apiVersion: v2
+name: nebula-apus
+version: 1.0.0
+dependencies:
+  - name: nodereal-app
+    version: 1.0.46
+    repository: https://raw.githubusercontent.com/node-real/helm-repository/gh-pages/

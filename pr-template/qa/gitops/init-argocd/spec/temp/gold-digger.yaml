@@ -1,0 +1,5 @@
+# for prod config
+namespace: ${qanet_name}
+service: gold-digger
+region:
+  - us

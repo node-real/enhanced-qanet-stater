@@ -1,0 +1,5 @@
+# for prod config
+namespace: opbnb-qanet-kerwinv2
+service: nebula-apus
+region:
+  - us

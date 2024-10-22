@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ${qanet_name}.gold-digger
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: qa-us
+        clusterAlias: us
+        url: https://193D4C150B1C368F975D57BF40C746AC.gr7.us-east-1.eks.amazonaws.com
+      
+  template:
+    metadata:
+      name: "{{ clusterAlias }}.${qanet_name}.gold-digger"
+      
+    spec:
+      project: default
+      syncPolicy:
+        automated:
+          prune: false
+        syncOptions:
+          - CreateNamespace=true  
+      source:
+        repoURL: https://github.com/node-real/nodereal-app
+        targetRevision: main
+        path: qa/gitops/{{cluster}}/${qanet_name}/gold-digger
+        helm:
+          releaseName: "gold-digger"
+          valueFiles:
+            - values.yaml
+      destination:
+        server: "{{url}}"
+        namespace: ${qanet_name}
+        
